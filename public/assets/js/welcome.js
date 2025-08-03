@@ -6,6 +6,8 @@ const closeSidebar = document.getElementById('closeSidebar');
 const getStartedBtn = document.getElementById('getStartedBtn');
 const loginForm = document.getElementById('loginForm');
 
+const API_BASE = 'http://localhost:3000';
+
 // Event listeners
 document.addEventListener('DOMContentLoaded', function() {
     initializeEventListeners();
@@ -65,61 +67,100 @@ function closeSidebarHandler() {
     document.body.style.overflow = 'auto';
 }
 
-function handleLogin(e) {
+// Manejar login
+async function handleLogin(e) {
     e.preventDefault();
     
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+    const formData = new FormData(e.target);
+    const loginData = {
+        email: formData.get('email'),
+        password: formData.get('password')
+    };
     
-    // Validación básica
-    if (!username || !password) {
+    // Validar campos
+    if (!loginData.email || !loginData.password) {
         showMessage('Por favor completa todos los campos', 'error');
         return;
     }
     
-    // Simulación de login (aquí conectarías con tu backend)
-    showMessage('Iniciando sesión...', 'info');
+    // Validar formato de email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(loginData.email)) {
+        showMessage('Por favor ingresa un email válido', 'error');
+        return;
+    }
     
-    // Simular delay de autenticación
-    setTimeout(() => {
-        // Credenciales de ejemplo
-        if (username === 'admin' && password === 'admin123') {
-            showMessage('¡Bienvenido! Redirigiendo...', 'success');
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('username', username);
+    try {
+        showMessage('Iniciando sesión...', 'info');
+        
+        const response = await fetch(`${API_BASE}/users/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(loginData)
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            showMessage('¡Login exitoso! Redirigiendo...', 'success');
             
+            // Guardar datos del usuario en localStorage
+            localStorage.setItem('userData', JSON.stringify({
+                id: result.user.id,
+                username: result.user.username,
+                email: result.user.email,
+                firstName: result.user.firstName,
+                lastName: result.user.lastName,
+                isLoggedIn: true
+            }));
+            
+            // Redireccionar a la página de archivos
             setTimeout(() => {
                 window.location.href = 'files.html';
             }, 1500);
+            
         } else {
-            showMessage('Credenciales incorrectas', 'error');
+            showMessage(result.message || 'Credenciales incorrectas', 'error');
         }
-    }, 1000);
-}
-
-function checkAuthStatus() {
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
-    const username = localStorage.getItem('username');
-    
-    if (isLoggedIn === 'true' && username) {
-        loginBtn.textContent = `Hola, ${username}`;
-        loginBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            showLogoutMenu();
-        });
+        
+    } catch (error) {
+        console.error('Error durante el login:', error);
+        showMessage('Error de conexión. Intenta nuevamente.', 'error');
     }
 }
 
-function showLogoutMenu() {
-    const confirmed = confirm('¿Deseas cerrar sesión?');
-    if (confirmed) {
-        logout();
+// Verificar estado de autenticación
+function checkAuthStatus() {
+    const userData = localStorage.getItem('userData');
+    if (userData) {
+        try {
+            const user = JSON.parse(userData);
+            if (user.isLoggedIn) {
+                // Usuario ya logueado, actualizar UI
+                updateUIForLoggedUser(user);
+            }
+        } catch (error) {
+            console.error('Error parsing user data:', error);
+            localStorage.removeItem('userData');
+        }
+    }
+}
+
+// Actualizar UI para usuario logueado
+function updateUIForLoggedUser(user) {
+    const loginBtn = document.getElementById('loginBtn');
+    if (loginBtn) {
+        loginBtn.textContent = `Hola, ${user.firstName}`;
+        loginBtn.onclick = () => {
+            window.location.href = 'files.html';
+        };
     }
 }
 
 function logout() {
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('username');
+    localStorage.removeItem('userData');
     loginBtn.textContent = 'Iniciar Sesión';
     showMessage('Sesión cerrada exitosamente', 'success');
     

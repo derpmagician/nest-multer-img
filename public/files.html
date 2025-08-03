@@ -3,38 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Archivos</title>
+    <title>Gestión de Archivos - FileManager Pro</title>
     <link rel="stylesheet" href="assets/css/files.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
 </head>
 <body>
-    <div class="container">
-        <h1>📁 Gestión de Archivos</h1>
-        
-        <!-- Sección de subida -->
-        <div class="upload-section">
-            <div class="upload-form">
-                <h3>Subir Nuevo Archivo</h3>
-                <form id="uploadForm" enctype="multipart/form-data">
-                    <input type="file" name="file" class="file-input" required>
-                    <br>
-                    <button type="submit" class="btn">📤 Subir Archivo</button>
-                    <button type="button" class="btn btn-refresh" onclick="loadFiles()">🔄 Actualizar Lista</button>
-                </form>
+    <div class="main-content">
+        <div class="container">
+            <header class="page-header">
+                <h1>📁 Gestión de Archivos</h1>
+                <p class="page-subtitle">Sube y administra tus imágenes de forma segura</p>
+            </header>
+            
+            <!-- Sección de subida -->
+            <div class="upload-section">
+                <div class="upload-form">
+                    <h3>Subir Nuevo Archivo</h3>
+                    <form id="uploadForm" enctype="multipart/form-data">
+                        <input type="file" name="file" class="file-input" accept="image/*" required>
+                        <br>
+                        <button type="submit" class="btn">📤 Subir Archivo</button>
+                        <button type="button" class="btn btn-refresh" onclick="loadFiles()">🔄 Actualizar Lista</button>
+                    </form>
+                </div>
             </div>
-        </div>
 
-        <!-- Mensajes -->
-        <div id="messages"></div>
+            <!-- Mensajes -->
+            <div id="messages"></div>
 
-        <!-- Sección de archivos -->
-        <div class="files-section">
-            <h3>Archivos Subidos</h3>
-            <div id="filesList" class="loading">
-                Cargando archivos...
+            <!-- Sección de archivos -->
+            <div class="files-section">
+                <h3>Archivos Subidos</h3>
+                <div id="filesList" class="loading">
+                    Cargando archivos...
+                </div>
             </div>
         </div>
     </div>
 
+    <script src="assets/js/sidebar.js"></script>
     <script src="assets/js/files.js"></script>
 </body>
 </html>

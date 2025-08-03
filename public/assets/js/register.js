@@ -13,6 +13,8 @@ const patterns = {
     name: /^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]{2,30}$/ // Nombres y apellidos, 2-30 caracteres, letras y espacios permitidos
 };
 
+const API_BASE = 'http://localhost:3000';
+
 // Event listeners
 document.addEventListener('DOMContentLoaded', function() {
     initializeEventListeners();
@@ -34,8 +36,9 @@ function initializeEventListeners() {
     document.getElementById('password').addEventListener('input', checkPasswordStrength);
     document.getElementById('confirmPassword').addEventListener('input', validatePasswordMatch);
     
-    // Validación de username en tiempo real
+    // Validación de username y email en tiempo real
     document.getElementById('username').addEventListener('input', debounce(checkUsernameAvailability, 500));
+    document.getElementById('email').addEventListener('input', debounce(checkEmailAvailability, 500));
 }
 
 function initializeValidation() {
@@ -57,57 +60,94 @@ async function handleRegistration(e) {
     }
     
     const formData = new FormData(registerForm);
-    const userData = Object.fromEntries(formData.entries());
+    const userData = {
+        firstName: formData.get('firstName'),
+        lastName: formData.get('lastName'),
+        email: formData.get('email'),
+        phone: formData.get('phone') || null,
+        username: formData.get('username'),
+        password: formData.get('password'),
+        country: formData.get('country') || null,
+        newsletterSubscription: formData.get('newsletter') === 'on',
+        termsAccepted: formData.get('terms') === 'on'
+    };
     
     // Mostrar estado de carga
     setLoadingState(true);
     
     try {
-        // Simular llamada a API
-        await simulateRegistration(userData);
+        const response = await fetch(`${API_BASE}/users/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userData)
+        });
         
-        showMessage('¡Cuenta creada exitosamente! Redirigiendo...', 'success');
+        const result = await response.json();
         
-        // Guardar datos del usuario (simulado)
-        localStorage.setItem('userData', JSON.stringify({
-            username: userData.username,
-            email: userData.email,
-            firstName: userData.firstName,
-            lastName: userData.lastName
-        }));
-        
-        // Redireccionar después del registro
-        setTimeout(() => {
-            window.location.href = 'index.html';
-        }, 2000);
+        if (response.ok) {
+            showMessage('¡Cuenta creada exitosamente! Redirigiendo...', 'success');
+            
+            // Guardar datos del usuario
+            localStorage.setItem('userData', JSON.stringify({
+                id: result.user.id,
+                username: result.user.username,
+                email: result.user.email,
+                firstName: result.user.firstName,
+                lastName: result.user.lastName
+            }));
+            
+            // Redireccionar después del registro
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 2000);
+        } else {
+            showMessage(result.message || 'Error al crear la cuenta', 'error');
+        }
         
     } catch (error) {
-        showMessage(error.message, 'error');
+        showMessage('Error de conexión. Intenta nuevamente.', 'error');
+        console.error('Registration error:', error);
     } finally {
         setLoadingState(false);
     }
 }
 
-// Simulación de registro (en un entorno real, esto sería una llamada a tu API)
-async function simulateRegistration(userData) {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            // Simular verificación de email duplicado
-            if (userData.email === 'admin@example.com') {
-                reject(new Error('Este correo electrónico ya está registrado'));
-                return;
-            }
-            
-            // Simular verificación de username duplicado
-            if (userData.username === 'admin') {
-                reject(new Error('Este nombre de usuario ya está en uso'));
-                return;
-            }
-            
-            // Simular éxito
-            resolve({ success: true, message: 'Usuario registrado exitosamente' });
-        }, 2000);
-    });
+// Verificar disponibilidad de email
+async function checkEmailAvailability(email) {
+    if (!email || !patterns.email.test(email)) return;
+    
+    try {
+        const response = await fetch(`${API_BASE}/users/check-email?email=${encodeURIComponent(email)}`);
+        const result = await response.json();
+        
+        if (!result.available) {
+            showError('email', 'Este correo electrónico ya está registrado');
+        } else {
+            clearError(document.getElementById('email'));
+        }
+    } catch (error) {
+        console.error('Error checking email availability:', error);
+    }
+}
+
+// Verificar disponibilidad de username
+async function checkUsernameAvailability(username) {
+    if (!username || !patterns.username.test(username)) return;
+    
+    try {
+        const response = await fetch(`${API_BASE}/users/check-username?username=${encodeURIComponent(username)}`);
+        const result = await response.json();
+        
+        if (!result.available) {
+            showError('username', 'Este nombre de usuario no está disponible');
+        } else {
+            clearError(document.getElementById('username'));
+        }
+    } catch (error) {
+        console.error('Error checking username availability:', error);
+    }
 }
 
 // Validación completa del formulario
@@ -210,12 +250,7 @@ function validateField(field) {
 function validateEmail(email) {
     const emailField = document.getElementById('email');
     if (email && patterns.email.test(email)) {
-        // Simular verificación de disponibilidad
-        setTimeout(() => {
-            if (email === 'admin@example.com') {
-                showError('email', 'Este correo ya está registrado');
-            }
-        }, 500);
+        // La verificación se hace en checkEmailAvailability
     }
 }
 
@@ -224,20 +259,6 @@ function validateUsername(username) {
     if (username && patterns.username.test(username)) {
         // La verificación se hace en checkUsernameAvailability
     }
-}
-
-// Verificar disponibilidad de username
-async function checkUsernameAvailability(username) {
-    if (!username || !patterns.username.test(username)) return;
-    
-    // Simular verificación en servidor
-    setTimeout(() => {
-        if (username === 'admin' || username === 'administrator') {
-            showError('username', 'Este nombre de usuario no está disponible');
-        } else {
-            clearError(document.getElementById('username'));
-        }
-    }, 300);
 }
 
 // Verificar fortaleza de contraseña

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración - FileManager Pro</title>
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            margin: 0;
+        }
+        
+        .main-content {
+            padding: 20px;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .page-header h1 {
+            color: #2d3748;
+            font-size: 2.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .settings-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .settings-section h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+        
+        .setting-label {
+            font-weight: 500;
+            color: #2d3748;
+        }
+        
+        .setting-description {
+            font-size: 0.9rem;
+            color: #718096;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <div class="container">
+            <header class="page-header">
+                <h1>⚙️ Configuración</h1>
+            </header>
+            
+            <div class="settings-section">
+                <h3>Notificaciones</h3>
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">Notificaciones de subida</div>
+                        <div class="setting-description">Recibir notificaciones cuando se complete la subida de archivos</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="uploadNotifications" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">Newsletter</div>
+                        <div class="setting-description">Recibir noticias y actualizaciones por email</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="newsletter">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <h3>Archivos</h3>
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">Auto-redimensionar imágenes</div>
+                        <div class="setting-description">Optimizar automáticamente el tamaño de las imágenes</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="autoResize" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">Eliminar metadatos EXIF</div>
+                        <div class="setting-description">Remover información de ubicación y cámara de las imágenes</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="removeExif" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <h3>Seguridad</h3>
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">Verificación en dos pasos</div>
+                        <div class="setting-description">Añadir una capa extra de seguridad a tu cuenta</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="twoFactor">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <div>
+                        <div class="setting-label">Cerrar sesión automáticamente</div>
+                        <div class="setting-description">Cerrar sesión después de 30 minutos de inactividad</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="autoLogout" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn-primary" onclick="saveSettings()">💾 Guardar Configuración</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSettings();
+        });
+        
+        function loadSettings() {
+            // Cargar configuraciones guardadas del localStorage
+            const settings = JSON.parse(localStorage.getItem('userSettings') || '{}');
+            
+            // Aplicar configuraciones a los toggles
+            Object.keys(settings).forEach(key => {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.checked = settings[key];
+                }
+            });
+        }
+        
+        function saveSettings() {
+            const settings = {
+                uploadNotifications: document.getElementById('uploadNotifications').checked,
+                newsletter: document.getElementById('newsletter').checked,
+                autoResize: document.getElementById('autoResize').checked,
+                removeExif: document.getElementById('removeExif').checked,
+                twoFactor: document.getElementById('twoFactor').checked,
+                autoLogout: document.getElementById('autoLogout').checked
+            };
+            
+            localStorage.setItem('userSettings', JSON.stringify(settings));
+            
+            // Mostrar mensaje de confirmación
+            if (window.sidebarManager) {
+                window.sidebarManager.showMessage('Configuración guardada exitosamente', 'success');
+            } else {
+                alert('Configuración guardada exitosamente');
+            }
+        }
+        
+        // Auto-guardar cuando se cambie un toggle
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', saveSettings);
+        });
+    </script>
+</body>
+</html>
