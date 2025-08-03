@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido - Sistema de Gestión de Archivos</title>
+    <link rel="stylesheet" href="assets/css/welcome.css">
+</head>
+<body>
+    <!-- Sidebar de Login -->
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-content">
+            <div class="sidebar-header">
+                <h3>🔐 Iniciar Sesión</h3>
+                <button id="closeSidebar" class="close-btn">&times;</button>
+            </div>
+            
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="username">Usuario:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Contraseña:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                
+                <button type="submit" class="btn-login">Iniciar Sesión</button>
+            </form>
+            
+            <div class="login-options">
+                <p>¿No tienes cuenta? <a href="#" id="registerLink">Regístrate aquí</a></p>
+                <p><a href="#" id="forgotPassword">¿Olvidaste tu contraseña?</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay para el sidebar -->
+    <div id="overlay" class="overlay"></div>
+
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>📁 FileManager Pro</h1>
+                </div>
+                <nav class="nav">
+                    <a href="#features" class="nav-link">Características</a>
+                    <a href="#about" class="nav-link">Acerca de</a>
+                    <a href="#contact" class="nav-link">Contacto</a>
+                    <button id="loginBtn" class="btn-primary">Iniciar Sesión</button>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h2 class="hero-title">Gestiona tus archivos de forma inteligente</h2>
+                <p class="hero-subtitle">
+                    Sube, organiza y comparte tus imágenes de manera segura y eficiente. 
+                    Nuestra plataforma te permite gestionar todos tus archivos desde un solo lugar.
+                </p>
+                <div class="hero-actions">
+                    <button id="getStartedBtn" class="btn-hero">Comenzar Ahora</button>
+                    <a href="files.html" class="btn-secondary">Ver Demo</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="image-placeholder">
+                    <span>🖼️</span>
+                    <p>Tus imágenes aquí</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="features">
+            <div class="container">
+                <h3 class="section-title">Características Principales</h3>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🔒</div>
+                        <h4>Seguro</h4>
+                        <p>Tus archivos están protegidos con encriptación de extremo a extremo</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h4>Rápido</h4>
+                        <p>Subida y descarga ultrarrápida de archivos de hasta 2MB</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎨</div>
+                        <h4>Imágenes</h4>
+                        <p>Soporte completo para JPEG, PNG, GIF, WebP, BMP y SVG</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <h4>Responsive</h4>
+                        <p>Accede desde cualquier dispositivo, en cualquier momento</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-text">
+                        <h3 class="section-title">Acerca de FileManager Pro</h3>
+                        <p>
+                            Somos una plataforma moderna construida con NestJS que te permite 
+                            gestionar tus archivos de imagen de manera eficiente y segura. 
+                            Nuestro enfoque está en la simplicidad, seguridad y rendimiento.
+                        </p>
+                        <ul class="about-features">
+                            <li>✅ Interfaz intuitiva y fácil de usar</li>
+                            <li>✅ Tecnología moderna (NestJS + Multer)</li>
+                            <li>✅ Almacenamiento seguro en el servidor</li>
+                            <li>✅ Vista previa instantánea de imágenes</li>
+                        </ul>
+                    </div>
+                    <div class="about-stats">
+                        <div class="stat">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label">Seguro</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">2MB</div>
+                            <div class="stat-label">Máximo por archivo</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">7</div>
+                            <div class="stat-label">Formatos soportados</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact">
+            <div class="container">
+                <h3 class="section-title">¿Necesitas ayuda?</h3>
+                <p class="contact-text">
+                    Estamos aquí para ayudarte. Contáctanos si tienes alguna pregunta o necesitas soporte.
+                </p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <span class="contact-icon">📧</span>
+                        <span>support@filemanager.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">💬</span>
+                        <span>Chat en vivo disponible</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h4>FileManager Pro</h4>
+                        <p>La mejor solución para gestión de archivos</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Enlaces</h4>
+                        <ul>
+                            <li><a href="#features">Características</a></li>
+                            <li><a href="#about">Acerca de</a></li>
+                            <li><a href="files.html">Demo</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li><a href="#">Términos de Servicio</a></li>
+                            <li><a href="#">Política de Privacidad</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 FileManager Pro. Todos los derechos reservados.</p>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <script src="assets/js/welcome.js"></script>
+</body>
+</html>

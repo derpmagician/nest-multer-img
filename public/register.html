@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Sistema de Gestión de Archivos</title>
+    <link rel="stylesheet" href="assets/css/register.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <a href="index.html">
+                    <h1>📁 FileManager Pro</h1>
+                </a>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Inicio</a>
+                <a href="files.html" class="nav-link">Demo</a>
+                <button id="loginBtn" class="btn-primary" onclick="window.location.href='index.html'">Iniciar Sesión</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="register-container">
+            <div class="register-card">
+                <!-- Header del formulario -->
+                <div class="register-header">
+                    <h2>🔐 Crear Cuenta</h2>
+                    <p>Únete a FileManager Pro y comienza a gestionar tus archivos</p>
+                </div>
+
+                <!-- Formulario de registro -->
+                <form id="registerForm" class="register-form">
+                    <!-- Información Personal -->
+                    <div class="form-section">
+                        <h3>Información Personal</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">Nombre <span class="required">*</span></label>
+                                <input type="text" id="firstName" name="firstName" required>
+                                <span class="error-message" id="firstNameError"></span>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="lastName">Apellido <span class="required">*</span></label>
+                                <input type="text" id="lastName" name="lastName" required>
+                                <span class="error-message" id="lastNameError"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Correo Electrónico <span class="required">*</span></label>
+                            <input type="email" id="email" name="email" required>
+                            <span class="error-message" id="emailError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Teléfono</label>
+                            <input type="tel" id="phone" name="phone" placeholder="+1 234 567 8900">
+                            <span class="error-message" id="phoneError"></span>
+                        </div>
+                    </div>
+
+                    <!-- Información de Cuenta -->
+                    <div class="form-section">
+                        <h3>Información de Cuenta</h3>
+                        
+                        <div class="form-group">
+                            <label for="username">Nombre de Usuario <span class="required">*</span></label>
+                            <input type="text" id="username" name="username" required>
+                            <small class="help-text">Mínimo 3 caracteres, solo letras, números y guiones</small>
+                            <span class="error-message" id="usernameError"></span>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="password">Contraseña <span class="required">*</span></label>
+                                <div class="password-input">
+                                    <input type="password" id="password" name="password" required>
+                                    <button type="button" class="password-toggle" onclick="togglePassword('password')">
+                                        👁️
+                                    </button>
+                                </div>
+                                <div class="password-strength" id="passwordStrength"></div>
+                                <span class="error-message" id="passwordError"></span>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirmar Contraseña <span class="required">*</span></label>
+                                <div class="password-input">
+                                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                                    <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">
+                                        👁️
+                                    </button>
+                                </div>
+                                <span class="error-message" id="confirmPasswordError"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Preferencias -->
+                    <div class="form-section">
+                        <h3>Preferencias</h3>
+                        
+                        <div class="form-group">
+                            <label for="country">País</label>
+                            <select id="country" name="country">
+                                <option value="">Selecciona tu país</option>
+                                <option value="AR">Argentina</option>
+                                <option value="BO">Bolivia</option>
+                                <option value="CL">Chile</option>
+                                <option value="CO">Colombia</option>
+                                <option value="CR">Costa Rica</option>
+                                <option value="EC">Ecuador</option>
+                                <option value="ES">España</option>
+                                <option value="GT">Guatemala</option>
+                                <option value="HN">Honduras</option>
+                                <option value="MX">México</option>
+                                <option value="NI">Nicaragua</option>
+                                <option value="PA">Panamá</option>
+                                <option value="PE">Perú</option>
+                                <option value="PY">Paraguay</option>
+                                <option value="SV">El Salvador</option>
+                                <option value="UY">Uruguay</option>
+                                <option value="VE">Venezuela</option>
+                                <option value="US">Estados Unidos</option>
+                                <option value="OTHER">Otro</option>
+                            </select>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="newsletter" name="newsletter">
+                                <label for="newsletter">Recibir noticias y actualizaciones por correo</label>
+                            </div>
+                            
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="terms" name="terms" required>
+                                <label for="terms">
+                                    Acepto los <a href="#" target="_blank">Términos de Servicio</a> y la 
+                                    <a href="#" target="_blank">Política de Privacidad</a> <span class="required">*</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn-register" id="submitBtn">
+                            <span class="btn-text">Crear Cuenta</span>
+                            <span class="btn-loader" style="display: none;">⏳ Creando...</span>
+                        </button>
+                        
+                        <div class="form-links">
+                            <p>¿Ya tienes una cuenta? <a href="index.html">Inicia Sesión</a></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Panel de información lateral -->
+            <div class="info-panel">
+                <div class="info-content">
+                    <h3>🚀 ¿Por qué unirse a FileManager Pro?</h3>
+                    
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <div class="feature-icon">🔒</div>
+                            <div class="feature-text">
+                                <h4>Seguridad Avanzada</h4>
+                                <p>Tus archivos protegidos con encriptación de extremo a extremo</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">📱</div>
+                            <div class="feature-text">
+                                <h4>Acceso Universal</h4>
+                                <p>Accede desde cualquier dispositivo, en cualquier momento</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">⚡</div>
+                            <div class="feature-text">
+                                <h4>Velocidad Máxima</h4>
+                                <p>Subida y descarga ultrarrápida de archivos</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">🎨</div>
+                            <div class="feature-text">
+                                <h4>Formatos Múltiples</h4>
+                                <p>Soporte completo para imágenes en todos los formatos</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats">
+                        <div class="stat">
+                            <div class="stat-number">10K+</div>
+                            <div class="stat-label">Usuarios Activos</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">99.9%</div>
+                            <div class="stat-label">Uptime</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">24/7</div>
+                            <div class="stat-label">Soporte</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Messages Container -->
+    <div id="messageContainer" class="message-container"></div>
+
+    <script src="assets/js/register.js"></script>
+</body>
+</html>
